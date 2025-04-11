@@ -1,5 +1,6 @@
 
 import { CheckCircle2 } from "lucide-react";
+import { motion } from "framer-motion";
 
 const About = () => {
   const values = [
@@ -21,26 +22,87 @@ const About = () => {
     <section id="about" className="section-padding bg-white">
       <div className="container-custom">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          <div>
-            <h3 className="text-sm font-semibold text-plc-purple mb-3 uppercase tracking-wider">OUR STORY</h3>
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7, type: "spring" }}
+            viewport={{ once: true, margin: "-50px" }}
+          >
+            <motion.h3 
+              className="text-sm font-semibold text-plc-purple mb-3 uppercase tracking-wider"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ delay: 0.2, duration: 0.5 }}
+              viewport={{ once: true }}
+            >
+              OUR STORY
+            </motion.h3>
+            <motion.h2 
+              className="text-3xl md:text-4xl font-bold mb-6"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ delay: 0.3, duration: 0.5 }}
+              viewport={{ once: true }}
+            >
               Building Businesses That Make An Impact
-            </h2>
-            <p className="text-gray-600 mb-6">
+            </motion.h2>
+            <motion.p 
+              className="text-gray-600 mb-6"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ delay: 0.4, duration: 0.5 }}
+              viewport={{ once: true }}
+            >
               Park Lines Concepts was founded with a simple mission: to help entrepreneurs and businesses turn their vision into reality with expert guidance and support.
-            </p>
-            <p className="text-gray-600 mb-6">
+            </motion.p>
+            <motion.p 
+              className="text-gray-600 mb-6"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ delay: 0.5, duration: 0.5 }}
+              viewport={{ once: true }}
+            >
               With decades of combined experience in business strategy, marketing, and technology, our team helps clients overcome challenges and seize opportunities for growth.
-            </p>
-            <p className="text-gray-600">
+            </motion.p>
+            <motion.p 
+              className="text-gray-600"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ delay: 0.6, duration: 0.5 }}
+              viewport={{ once: true }}
+            >
               We don't just work for you — we work with you, becoming an extension of your team and bringing our expertise to help you achieve your goals.
-            </p>
-          </div>
+            </motion.p>
+          </motion.div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {values.map((value, index) => (
-              <div key={index} className="bg-white rounded-lg p-6 shadow-sm border border-gray-100">
-                <div className="text-plc-purple mb-4">
+              <motion.div 
+                key={index} 
+                className="bg-white rounded-lg p-6 shadow-sm border border-gray-100"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ 
+                  delay: 0.2 * index, 
+                  duration: 0.5,
+                  type: "spring",
+                  stiffness: 100
+                }}
+                whileHover={{ 
+                  y: -10, 
+                  boxShadow: "0px 10px 25px rgba(0, 0, 0, 0.1)",
+                  transition: {
+                    type: "spring",
+                    stiffness: 300,
+                    damping: 15
+                  }
+                }}
+                viewport={{ once: true, margin: "-50px" }}
+              >
+                <motion.div 
+                  className="text-plc-purple mb-4"
+                  whileHover={{ rotate: [0, -10, 10, -5, 5, 0], transition: { duration: 0.5 } }}
+                >
                   {value.title === "Excellence" && (
                     <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M12 15L8.5 11.5L9.5 10.5L12 13L16.5 8.5L17.5 9.5L12 15Z" fill="currentColor"/>
@@ -57,10 +119,22 @@ const About = () => {
                       <path d="M12 22C6.48 22 2 17.52 2 12C2 6.48 6.48 2 12 2C17.52 2 22 6.48 22 12C22 17.52 17.52 22 12 22ZM12 20C14.1217 20 16.1566 19.1571 17.6569 17.6569C19.1571 16.1566 20 14.1217 20 12C20 9.87827 19.1571 7.84344 17.6569 6.34315C16.1566 4.84285 14.1217 4 12 4C9.87827 4 7.84344 4.84285 6.34315 6.34315C4.84285 7.84344 4 9.87827 4 12C4 14.1217 4.84285 16.1566 6.34315 17.6569C7.84344 19.1571 9.87827 20 12 20ZM7 11H9V15H7V11ZM11 11H13V15H11V11ZM15 11H17V15H15V11ZM7 7H17V9H7V7Z" fill="currentColor"/>
                     </svg>
                   )}
-                </div>
-                <h3 className="text-lg font-semibold mb-2">{value.title}</h3>
-                <p className="text-sm text-gray-600">{value.description}</p>
-              </div>
+                </motion.div>
+                <motion.h3 
+                  className="text-lg font-semibold mb-2"
+                  whileHover={{ scale: 1.05, color: "#8B5CF6" }}
+                >
+                  {value.title}
+                </motion.h3>
+                <motion.p 
+                  className="text-sm text-gray-600"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.3 + index * 0.1 }}
+                >
+                  {value.description}
+                </motion.p>
+              </motion.div>
             ))}
           </div>
         </div>
