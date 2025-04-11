@@ -64,17 +64,6 @@ const Hero = () => {
                 Book Your Strategy Call
               </Button>
             </motion.div>
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 1.1, duration: 0.5 }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Button variant="outline" className="w-full text-white border-white/30 hover:bg-white/10">
-                Explore Services
-              </Button>
-            </motion.div>
           </div>
         </div>
       </div>
