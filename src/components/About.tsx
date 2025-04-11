@@ -1,4 +1,3 @@
-
 import { CheckCircle2 } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -14,7 +13,7 @@ const About = () => {
     },
     {
       title: "Integrity",
-      description: "We operate with complete transparency and honesty in all our dealings."
+      description: "Our M.O. Is Under Promise... Over Deliver. We operate with complete transparency and honesty in all our dealings."
     }
   ];
 

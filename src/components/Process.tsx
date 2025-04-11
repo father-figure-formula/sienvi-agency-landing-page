@@ -1,5 +1,5 @@
 
-import { CalendarCheck, MessageSquare, FileText, Rocket } from "lucide-react";
+import { CalendarCheck, MessageSquare, FileText, Rocket, FileQuestion } from "lucide-react";
 import { motion } from "framer-motion";
 
 const ProcessStep = ({ 
@@ -65,6 +65,11 @@ const ProcessStep = ({
 
 const Process = () => {
   const steps = [
+    {
+      icon: FileQuestion,
+      title: "Fill Out Client Discovery Questionnaire",
+      description: "Complete our comprehensive intake form to help us understand your unique business needs and goals."
+    },
     {
       icon: CalendarCheck,
       title: "Book a Strategy Call",
