@@ -1,13 +1,14 @@
 
 import { ChartBarIcon, RocketIcon, MessageSquareIcon, ShoppingCartIcon, GlobeIcon, BarChartIcon } from "lucide-react";
+import React from "react";
 
-// Create extended icons with custom props
-const ChartBarIcon2 = (props: any) => <ChartBarIcon {...props} />;
-const RocketIcon2 = (props: any) => <RocketIcon {...props} />;
-const MessageSquareIcon2 = (props: any) => <MessageSquareIcon {...props} />;
-const ShoppingCartIcon2 = (props: any) => <ShoppingCartIcon {...props} />;
-const GlobeIcon2 = (props: any) => <GlobeIcon {...props} />;
-const BarChartIcon2 = (props: any) => <BarChartIcon {...props} />;
+// Create wrapper functions without JSX syntax
+const ChartBarIcon2 = (props: any) => React.createElement(ChartBarIcon, props);
+const RocketIcon2 = (props: any) => React.createElement(RocketIcon, props);
+const MessageSquareIcon2 = (props: any) => React.createElement(MessageSquareIcon, props);
+const ShoppingCartIcon2 = (props: any) => React.createElement(ShoppingCartIcon, props);
+const GlobeIcon2 = (props: any) => React.createElement(GlobeIcon, props);
+const BarChartIcon2 = (props: any) => React.createElement(BarChartIcon, props);
 
 export const services = [
   {
