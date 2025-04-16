@@ -52,7 +52,7 @@ const About = () => {
               transition={{ delay: 0.4, duration: 0.5 }}
               viewport={{ once: true }}
             >
-              Park Lines Concepts was founded with a simple mission: to help entrepreneurs and businesses turn their vision into reality with expert guidance and support.
+              Sienvi was founded with a simple mission: to help entrepreneurs and businesses turn their vision into reality with expert guidance and support.
             </motion.p>
             <motion.p 
               className="text-gray-600 mb-6"
