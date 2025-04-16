@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Menu, X } from 'lucide-react';
@@ -14,7 +13,7 @@ const Navbar = () => {
     <nav className="py-4 bg-white sticky top-0 z-50 shadow-sm">
       <div className="container-custom flex justify-between items-center">
         <div className="flex items-center">
-          <a href="/" className="text-lg font-bold">Park Lines Concepts</a>
+          <a href="/" className="text-lg font-bold">Sienvi</a>
         </div>
 
         {/* Desktop navigation */}

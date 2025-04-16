@@ -6,7 +6,7 @@ const Footer = () => {
       <div className="container-custom py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div>
-            <h3 className="text-lg font-bold mb-4">Park Lines Concepts</h3>
+            <h3 className="text-lg font-bold mb-4">Sienvi</h3>
             <p className="text-gray-400 text-sm mb-4">
               Transforming businesses through expert agency support, coaching, and AI-driven automation solutions.
             </p>
@@ -49,14 +49,14 @@ const Footer = () => {
           
           <div>
             <h3 className="text-lg font-bold mb-4">Contact Us</h3>
-            <a href="mailto:info@parklinesconcepts.autos" className="text-gray-400 hover:text-white transition-colors text-sm block mb-2">
-              info@parklinesconcepts.autos
+            <a href="mailto:info@sienvi.com" className="text-gray-400 hover:text-white transition-colors text-sm block mb-2">
+              info@sienvi.com
             </a>
           </div>
         </div>
         
         <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-gray-500 text-sm">© 2024 Park Lines Concepts. All rights reserved.</p>
+          <p className="text-gray-500 text-sm">© 2024 Sienvi. All rights reserved.</p>
           <div className="mt-4 md:mt-0">
             <a href="#" className="text-gray-500 hover:text-white text-sm mx-3">Terms of Service</a>
             <a href="#" className="text-gray-500 hover:text-white text-sm mx-3">Privacy Policy</a>
