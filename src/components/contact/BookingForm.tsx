@@ -31,13 +31,10 @@ const BookingForm = ({ calendarUrl }: BookingFormProps) => {
     e.preventDefault();
     console.log("Form submitted:", formData);
     
-    // Open booking calendar in new tab
-    window.open(calendarUrl, '_blank');
-    
     // Show confirmation toast
     toast({
       title: "Form Submitted",
-      description: "Opening booking calendar. Please select a time that works for you!",
+      description: "Redirecting you to the booking calendar now!",
     });
     
     // Reset form
@@ -47,6 +44,9 @@ const BookingForm = ({ calendarUrl }: BookingFormProps) => {
       phone: "",
       message: ""
     });
+    
+    // Directly open the booking calendar in a new tab
+    window.open(calendarUrl, '_blank');
   };
 
   return (
