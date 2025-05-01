@@ -2,7 +2,14 @@
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 
+// Replace with your actual Google Calendar appointment URL once you've set it up
+const CALENDAR_BOOKING_URL = "https://calendar.google.com/calendar/u/0/appointment-scheduler?cid=sienvifba@gmail.com";
+
 const Hero = () => {
+  const handleBookCall = () => {
+    window.open(CALENDAR_BOOKING_URL, '_blank');
+  };
+
   return (
     <section className="bg-plc-dark text-white py-24 md:py-32 overflow-hidden">
       <div className="container-custom">
@@ -61,7 +68,10 @@ const Hero = () => {
               whileTap={{ scale: 0.95 }}
               className="w-full"
             >
-              <Button className="w-full bg-plc-purple hover:bg-plc-purple/90 text-white button-shadow">
+              <Button 
+                className="w-full bg-plc-purple hover:bg-plc-purple/90 text-white button-shadow"
+                onClick={handleBookCall}
+              >
                 Book Your Strategy Call
               </Button>
             </motion.div>

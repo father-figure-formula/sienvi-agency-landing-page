@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,6 +9,9 @@ import { motion } from "framer-motion";
 import { Calendar as CalendarIcon, Clock } from "lucide-react";
 import { format } from "date-fns";
 
+// Replace this URL with your actual Google Calendar appointment URL once you've set it up
+const CALENDAR_BOOKING_URL = "https://calendar.google.com/calendar/u/0/appointment-scheduler?cid=sienvifba@gmail.com";
+
 const Contact = () => {
   const { toast } = useToast();
   const [formData, setFormData] = useState({
@@ -16,10 +20,7 @@ const Contact = () => {
     phone: "",
     message: ""
   });
-  const [date, setDate] = useState<Date | undefined>(undefined);
-  const [showCalendar, setShowCalendar] = useState(false);
-  const [timeSlot, setTimeSlot] = useState<string | null>(null);
-
+  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -30,14 +31,15 @@ const Contact = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", formData, "Date:", date, "Time:", timeSlot);
+    console.log("Form submitted:", formData);
     
-    // Simulate form submission
+    // Open booking calendar in new tab
+    window.open(CALENDAR_BOOKING_URL, '_blank');
+    
+    // Show confirmation toast
     toast({
-      title: "Appointment Scheduled",
-      description: date && timeSlot 
-        ? `Your call is scheduled for ${format(date, "MMMM d, yyyy")} at ${timeSlot}. We'll be in touch shortly!` 
-        : "We'll be in touch with you shortly!",
+      title: "Form Submitted",
+      description: "Opening booking calendar. Please select a time that works for you!",
     });
     
     // Reset form
@@ -47,17 +49,6 @@ const Contact = () => {
       phone: "",
       message: ""
     });
-    setDate(undefined);
-    setTimeSlot(null);
-    setShowCalendar(false);
-  };
-
-  const timeSlots = [
-    "9:00 AM", "10:00 AM", "11:00 AM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM"
-  ];
-
-  const handleCalendarToggle = () => {
-    setShowCalendar(!showCalendar);
   };
 
   return (
@@ -187,76 +178,6 @@ const Contact = () => {
                   />
                 </div>
                 
-                <div className="space-y-4">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Choose a Date & Time</label>
-                  
-                  <motion.button
-                    type="button"
-                    className="flex items-center gap-2 w-full p-3 border border-input rounded-md hover:bg-gray-50 transition-colors"
-                    onClick={handleCalendarToggle}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <CalendarIcon className="h-5 w-5 text-plc-purple" />
-                    <span>{date ? format(date, "MMMM d, yyyy") : "Select a date"}</span>
-                  </motion.button>
-                  
-                  {showCalendar && (
-                    <motion.div 
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      className="p-3 border rounded-md shadow-md bg-white"
-                    >
-                      <Calendar
-                        mode="single"
-                        selected={date}
-                        onSelect={(selectedDate) => {
-                          setDate(selectedDate);
-                          setTimeSlot(null);
-                        }}
-                        disabled={(date) => {
-                          // Disable weekends and dates in the past
-                          return date < new Date() || date.getDay() === 0 || date.getDay() === 6;
-                        }}
-                        initialFocus
-                      />
-                    </motion.div>
-                  )}
-                  
-                  {date && (
-                    <motion.div 
-                      className="space-y-3"
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: "auto" }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <label className="block text-sm font-medium text-gray-700">
-                        Available Time Slots for {format(date, "MMMM d, yyyy")}:
-                      </label>
-                      <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                        {timeSlots.map((slot) => (
-                          <motion.button
-                            key={slot}
-                            type="button"
-                            className={`flex items-center justify-center gap-1 p-2 rounded-md border ${
-                              timeSlot === slot 
-                                ? "bg-plc-purple text-white border-plc-purple" 
-                                : "border-gray-200 hover:border-plc-purple text-gray-700"
-                            }`}
-                            onClick={() => setTimeSlot(slot)}
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                          >
-                            <Clock className="h-4 w-4" />
-                            {slot}
-                          </motion.button>
-                        ))}
-                      </div>
-                    </motion.div>
-                  )}
-                </div>
-                
                 <motion.div
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.97 }}
@@ -264,7 +185,6 @@ const Contact = () => {
                   <Button 
                     type="submit" 
                     className="w-full bg-plc-purple hover:bg-plc-purple/90 text-white button-shadow"
-                    disabled={!date || !timeSlot}
                   >
                     Book Your Call
                   </Button>

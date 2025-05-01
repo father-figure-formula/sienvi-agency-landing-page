@@ -1,12 +1,20 @@
+
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Menu, X } from 'lucide-react';
+
+// Replace with your actual Google Calendar appointment URL once you've set it up
+const CALENDAR_BOOKING_URL = "https://calendar.google.com/calendar/u/0/appointment-scheduler?cid=sienvifba@gmail.com";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleBookCall = () => {
+    window.open(CALENDAR_BOOKING_URL, '_blank');
   };
 
   return (
@@ -23,7 +31,13 @@ const Navbar = () => {
           <a href="#process" className="text-sm font-medium hover:text-plc-purple transition-colors">Process</a>
           <a href="#pricing" className="text-sm font-medium hover:text-plc-purple transition-colors">Pricing</a>
           <a href="#contact" className="text-sm font-medium hover:text-plc-purple transition-colors">Contact</a>
-          <Button size="sm" className="ml-4 bg-plc-purple hover:bg-plc-purple/90 text-white">Book a Call</Button>
+          <Button 
+            size="sm" 
+            className="ml-4 bg-plc-purple hover:bg-plc-purple/90 text-white"
+            onClick={handleBookCall}
+          >
+            Book a Call
+          </Button>
         </div>
 
         {/* Mobile menu button */}
@@ -75,7 +89,11 @@ const Navbar = () => {
             >
               Contact
             </a>
-            <Button size="sm" className="w-full bg-plc-purple hover:bg-plc-purple/90 text-white">
+            <Button 
+              size="sm" 
+              className="w-full bg-plc-purple hover:bg-plc-purple/90 text-white"
+              onClick={handleBookCall}
+            >
               Book a Call
             </Button>
           </div>

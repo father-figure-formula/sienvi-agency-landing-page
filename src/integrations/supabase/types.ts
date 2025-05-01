@@ -9,6 +9,99 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      analytics_events: {
+        Row: {
+          event_type: string
+          id: string
+          metadata: Json | null
+          path: string
+          timestamp: string
+        }
+        Insert: {
+          event_type: string
+          id?: string
+          metadata?: Json | null
+          path: string
+          timestamp?: string
+        }
+        Update: {
+          event_type?: string
+          id?: string
+          metadata?: Json | null
+          path?: string
+          timestamp?: string
+        }
+        Relationships: []
+      }
+      assessments: {
+        Row: {
+          answers: Json
+          created_at: string
+          date_of_birth: string
+          email: string
+          id: string
+          name: string
+        }
+        Insert: {
+          answers: Json
+          created_at?: string
+          date_of_birth: string
+          email: string
+          id?: string
+          name: string
+        }
+        Update: {
+          answers?: Json
+          created_at?: string
+          date_of_birth?: string
+          email?: string
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      blog_posting: {
+        Row: {
+          blog_content: string
+          blog_topic: string
+        }
+        Insert: {
+          blog_content: string
+          blog_topic: string
+        }
+        Update: {
+          blog_content?: string
+          blog_topic?: string
+        }
+        Relationships: []
+      }
+      coach_credentials: {
+        Row: {
+          created_at: string | null
+          id: string
+          last_login: string | null
+          password_hash: string
+          role: Database["public"]["Enums"]["coach_role"]
+          username: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          last_login?: string | null
+          password_hash: string
+          role?: Database["public"]["Enums"]["coach_role"]
+          username: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          last_login?: string | null
+          password_hash?: string
+          role?: Database["public"]["Enums"]["coach_role"]
+          username?: string
+        }
+        Relationships: []
+      }
       contracts: {
         Row: {
           created_at: string
@@ -139,7 +232,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      coach_role: "head_coach" | "assistant_coach"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -254,6 +347,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      coach_role: ["head_coach", "assistant_coach"],
+    },
   },
 } as const

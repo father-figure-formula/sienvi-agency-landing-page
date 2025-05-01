@@ -4,7 +4,14 @@ import { Button } from "@/components/ui/button";
 import PricingCard from "./pricing/PricingCard";
 import { pricingTiers } from "./pricing/pricingData";
 
+// Replace with your actual Google Calendar appointment URL once you've set it up
+const CALENDAR_BOOKING_URL = "https://calendar.google.com/calendar/u/0/appointment-scheduler?cid=sienvifba@gmail.com";
+
 const Pricing = () => {
+  const handleBookCall = () => {
+    window.open(CALENDAR_BOOKING_URL, '_blank');
+  };
+
   return (
     <section id="pricing" className="section-padding bg-gray-50 overflow-hidden">
       <div className="container-custom">
@@ -54,7 +61,10 @@ const Pricing = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <Button className="bg-white text-plc-purple hover:bg-gray-100">
+            <Button 
+              className="bg-white text-plc-purple hover:bg-gray-100"
+              onClick={handleBookCall}
+            >
               Book Your Strategy Call
             </Button>
           </motion.div>
