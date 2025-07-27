@@ -37,6 +37,9 @@
 
     --radius: 0.5rem;
 
+    /* Hero gradient */
+    --hero-gradient: linear-gradient(135deg, #1e1b4b 0%, #3730a3 25%, #8b5cf6 50%, #a855f7 75%, #c084fc 100%);
+
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
     --sidebar-primary: 240 5.9% 10%;
@@ -123,5 +126,9 @@
   
   .service-icon {
     @apply w-10 h-10 text-plc-purple;
+  }
+  
+  .hero-gradient {
+    background: var(--hero-gradient);
   }
 }

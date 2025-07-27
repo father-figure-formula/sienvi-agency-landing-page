@@ -11,7 +11,7 @@ const Hero = () => {
   };
 
   return (
-    <section className="bg-plc-dark text-white py-24 md:py-32 overflow-hidden">
+    <section className="hero-gradient text-white py-24 md:py-32 overflow-hidden">
       <div className="container-custom">
         <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
           <motion.div
