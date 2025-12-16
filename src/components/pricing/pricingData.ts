@@ -70,7 +70,7 @@ export const standalonePricing = [
   },
   {
     title: "Custom GPT Product",
-    price: "TBD",
+    price: "$888 x 3 months",
     note: "Great for client upsells"
   },
   {
