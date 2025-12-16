@@ -5,82 +5,46 @@ export interface PricingTier {
   description: string;
   features: string[];
   popular?: boolean;
-  note?: string;
 }
 
 export const pricingTiers: PricingTier[] = [
   {
-    title: "Website + Custom GPT",
-    price: "$888 x 3 months",
-    description: "Professional website with AI-powered chatbot for your business.",
+    title: "Single Service",
+    price: "$888",
+    description: "Perfect for businesses looking to automate one area of their operations.",
     features: [
-      "Website Buildout Package (3-month contract)",
-      "Custom GPT Product included",
-      "AI chatbot trained on your business",
+      "Full access to one core service",
+      "Detailed onboarding process",
+      "25% consulting call discount",
       "Monthly performance reports",
       "Dedicated account manager"
-    ],
-    note: "+ Custom GPT setup (TBD)"
+    ]
   },
   {
-    title: "SEO/AEO + Custom GPT",
-    price: "$888 x 2 months",
-    description: "Boost visibility and automate customer interactions.",
+    title: "Triple Automation",
+    price: "$2,398.20",
+    description: "Our most popular package for businesses ready to integrate multiple services.",
     features: [
-      "SEO/AEO Package",
-      "Custom GPT Product included",
-      "Search & AI engine optimization",
-      "AI chatbot for lead capture",
-      "Monthly ranking reports"
+      "Full access to three core services",
+      "10% discount on package price",
+      "15% consulting call discount",
+      "Weekly performance reports",
+      "Dedicated account manager",
+      "Quarterly strategy sessions"
     ],
-    note: "Optional combo package",
     popular: true
   },
   {
-    title: "Full Digital Suite",
-    price: "$3,996/mo",
-    description: "Complete solution for businesses ready to dominate digitally.",
+    title: "Full Automation",
+    price: "$3,996.00",
+    description: "The complete solution for businesses ready to fully integrate automation.",
     features: [
-      "Website Buildout + SEO/AEO",
-      "Social Media Suite",
-      "Custom GPT Product (setup included)",
-      "E-Commerce Operations",
-      "25% bundle discount",
-      "VIP support with 2-hour response"
+      "All six core automation services",
+      "25% discount on package price",
+      "VIP support with 2-hour response",
+      "Bi-weekly performance reports",
+      "Dedicated senior account manager",
+      "Monthly strategy and optimization reviews"
     ]
-  }
-];
-
-// Standalone service pricing
-export const standalonePricing = [
-  {
-    title: "Website Buildout",
-    price: "$888/mo",
-    note: "3-month contract"
-  },
-  {
-    title: "SEO/AEO Package",
-    price: "$888/mo",
-    note: "Available standalone"
-  },
-  {
-    title: "Social Media Suite",
-    price: "$888/mo",
-    note: "All-in-one social management"
-  },
-  {
-    title: "Custom GPT Product",
-    price: "$888/mo",
-    note: "Great for client upsells"
-  },
-  {
-    title: "Custom LMS Package",
-    price: "$888/mo",
-    note: "Full learning platform"
-  },
-  {
-    title: "E-Commerce Operations",
-    price: "$888/mo",
-    note: "Multi-channel automation"
   }
 ];
