@@ -38,24 +38,26 @@ export const services = [
   {
     icon: GlobeIcon2,
     title: "Website Buildout Package",
-    subtitle: "Complete website development (3-month contract) • Bundle with SEO or standalone",
+    subtitle: "Complete website development (3-month contract)",
     features: [
       "Sleek, modern, and conversion-focused websites",
       "Mobile-first, responsive designs",
       "Integrated booking and payment solutions",
-      "Seamless user experiences tailored to your brand identity"
+      "Seamless user experiences tailored to your brand identity",
+      "💡 Combo: Website + Custom GPT ($888 x 3 months)"
     ],
     price: "$888"
   },
   {
     icon: SearchIcon2,
-    title: "SEO/AEO Website Package",
-    subtitle: "Comprehensive automation solutions • Bundle with Website or standalone",
+    title: "SEO/AEO Package",
+    subtitle: "Comprehensive automation solutions for your business",
     features: [
       "AI-powered ad optimization and automated bid adjustments",
       "Automated task management and delegation systems",
       "Implementation of AI-driven tools for business processes",
-      "Custom strategies for scaling efficiency across all operations"
+      "Custom strategies for scaling efficiency across all operations",
+      "💡 Combo: SEO/AEO + Custom GPT ($888 x 2 months)"
     ],
     price: "$888"
   },
