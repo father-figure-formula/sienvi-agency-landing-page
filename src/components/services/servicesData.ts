@@ -21,7 +21,7 @@ export const services = [
       "Automated engagement and community management",
       "Performance tracking and analytics"
     ],
-    price: "$888"
+    price: "$2450"
   },
   {
     icon: ShoppingCartIcon2,
@@ -37,14 +37,13 @@ export const services = [
   },
   {
     icon: GlobeIcon2,
-    title: "Website Buildout Package",
-    subtitle: "Complete website development (3-month contract)",
+    title: "Custom Website",
+    subtitle: "Custom website development",
     features: [
       "Sleek, modern, and conversion-focused websites",
       "Mobile-first, responsive designs",
       "Integrated booking and payment solutions",
-      "Seamless user experiences tailored to your brand identity",
-      "💡 Combo: Website + Custom GPT ($888 x 3 months)"
+      "Seamless user experiences tailored to your brand identity"
     ],
     price: "$888"
   },
@@ -71,7 +70,7 @@ export const services = [
       "Interactive quizzes and assessments",
       "Branded learning portal with user management"
     ],
-    price: "$888"
+    price: "$2450"
   },
   {
     icon: BotIcon2,
