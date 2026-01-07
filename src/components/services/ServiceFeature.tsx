@@ -19,6 +19,11 @@ const ServiceFeature = ({ feature, index }: ServiceFeatureProps) => {
 
   if (isBundle) {
     const bundleText = feature.replace("💡 ", "");
+    // Split the text to style "Inquire for details" differently
+    const parts = bundleText.split(" — ");
+    const bundleInfo = parts[0];
+    const inquireText = parts[1] || "Inquire for details";
+
     return (
       <motion.li 
         className="flex items-start"
@@ -29,35 +34,49 @@ const ServiceFeature = ({ feature, index }: ServiceFeatureProps) => {
       >
         <motion.button
           onClick={handleBundleClick}
-          className="flex items-center gap-2 w-full px-3 py-2 rounded-lg bg-primary/5 border border-primary/20 cursor-pointer group"
+          className="flex flex-col gap-2 w-full px-3 py-3 rounded-lg bg-primary/5 border border-primary/20 cursor-pointer group overflow-hidden relative"
           whileHover={{ 
             scale: 1.02, 
-            backgroundColor: "hsl(var(--primary) / 0.15)",
+            backgroundColor: "hsl(var(--primary) / 0.12)",
             borderColor: "hsl(var(--primary) / 0.4)"
           }}
           whileTap={{ scale: 0.98 }}
           transition={{ type: "spring", stiffness: 400, damping: 17 }}
         >
-          <motion.div
-            whileHover={{ rotate: [0, -15, 15, 0] }}
-            transition={{ duration: 0.5 }}
+          {/* Bundle info row */}
+          <div className="flex items-center gap-2 w-full">
+            <motion.div
+              className="shrink-0"
+              whileHover={{ rotate: [0, -15, 15, 0] }}
+              transition={{ duration: 0.5 }}
+            >
+              <Lightbulb className="h-5 w-5 text-primary" />
+            </motion.div>
+            <span className="text-sm text-primary font-medium text-left flex-1">
+              {bundleInfo}
+            </span>
+          </div>
+          
+          {/* Inquire for details - styled uniquely */}
+          <motion.div 
+            className="flex items-center justify-center gap-1.5 w-full py-1.5 px-3 rounded-md bg-primary/10 group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300"
+            whileHover={{ scale: 1.03 }}
           >
-            <Lightbulb className="h-5 w-5 text-primary shrink-0" />
+            <span className="text-xs font-semibold uppercase tracking-wide text-primary group-hover:text-primary-foreground transition-colors duration-300">
+              {inquireText}
+            </span>
+            <motion.svg 
+              className="h-3.5 w-3.5 text-primary group-hover:text-primary-foreground transition-colors duration-300"
+              fill="none" 
+              viewBox="0 0 24 24" 
+              stroke="currentColor"
+              initial={{ x: 0 }}
+              animate={{ x: [0, 3, 0] }}
+              transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </motion.svg>
           </motion.div>
-          <span className="text-sm text-primary font-medium text-left">
-            {bundleText}
-          </span>
-          <motion.svg 
-            className="h-4 w-4 text-primary ml-auto shrink-0"
-            fill="none" 
-            viewBox="0 0 24 24" 
-            stroke="currentColor"
-            initial={{ x: 0 }}
-            whileHover={{ x: 3 }}
-            transition={{ type: "spring", stiffness: 400, damping: 17 }}
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-          </motion.svg>
         </motion.button>
       </motion.li>
     );
