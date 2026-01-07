@@ -19,7 +19,8 @@ export const services = [
       "AI-assisted content creation (text, images, video)",
       "Auto-scheduling and cross-posting to all major platforms",
       "Automated engagement and community management",
-      "Performance tracking and analytics"
+      "Performance tracking and analytics",
+      "💡 Bundle with Custom GPT or SEO/AEO — Inquire for details"
     ],
     price: "$2450"
   },
@@ -31,7 +32,8 @@ export const services = [
       "Automated inventory tracking across multiple platforms",
       "AI-powered demand forecasting to prevent stockouts",
       "Streamlined order fulfillment and shipping automation",
-      "AI-driven customer service chatbot integration"
+      "AI-driven customer service chatbot integration",
+      "💡 Bundle with Custom Website or Custom GPT — Inquire for details"
     ],
     price: "$888"
   },
@@ -43,7 +45,8 @@ export const services = [
       "Sleek, modern, and conversion-focused websites",
       "Mobile-first, responsive designs",
       "Integrated booking and payment solutions",
-      "Seamless user experiences tailored to your brand identity"
+      "Seamless user experiences tailored to your brand identity",
+      "💡 Bundle with SEO/AEO or Custom GPT — Inquire for details"
     ],
     price: "$888"
   },
@@ -56,7 +59,7 @@ export const services = [
       "Automated task management and delegation systems",
       "Implementation of AI-driven tools for business processes",
       "Custom strategies for scaling efficiency across all operations",
-      "💡 Combo: SEO/AEO + Custom GPT ($888 x 2 months)"
+      "💡 Bundle with Custom Website or Custom GPT — Inquire for details"
     ],
     price: "$888"
   },
@@ -68,7 +71,8 @@ export const services = [
       "Custom course creation and content management",
       "Student progress tracking and analytics",
       "Interactive quizzes and assessments",
-      "Branded learning portal with user management"
+      "Branded learning portal with user management",
+      "💡 Bundle with Custom GPT or Social Media Suite — Inquire for details"
     ],
     price: "$2450"
   },
@@ -80,7 +84,8 @@ export const services = [
       "Custom-trained AI assistant for your brand",
       "Seamless website or app integration",
       "24/7 automated customer support",
-      "Perfect for client upselling and engagement"
+      "Perfect for client upselling and engagement",
+      "💡 Bundle with Custom Website or LMS — Inquire for details"
     ],
     price: "$888"
   }
