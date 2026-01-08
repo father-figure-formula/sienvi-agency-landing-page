@@ -14,10 +14,10 @@ const ContactInfo = () => {
       <div className="mb-8">
         <p className="text-gray-800 font-medium mb-1">Email</p>
         <a 
-          href="mailto:info@sienvi.com" 
+          href="mailto:teamsienvi@gmail.com" 
           className="text-plc-purple hover:underline"
         >
-          info@sienvi.com
+          teamsienvi@gmail.com
         </a>
       </div>
       
