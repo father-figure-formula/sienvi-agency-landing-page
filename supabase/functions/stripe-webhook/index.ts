@@ -21,6 +21,52 @@ const PRICE_TO_PLAN: Record<string, string> = {
   "price_1SpD4wKEtylNfLjGGsGBcNq1": "full",
 };
 
+// Helper to get next billing date from Stripe subscription
+async function getNextBillingDate(subscriptionId: string): Promise<string | null> {
+  try {
+    const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+    if (subscription.current_period_end) {
+      return new Date(subscription.current_period_end * 1000).toISOString();
+    }
+  } catch (e) {
+    console.error("Error fetching subscription details:", e);
+  }
+  return null;
+}
+
+// Helper to update client_profiles
+async function updateClientProfile(
+  email: string | null,
+  updates: {
+    subscription_status?: string;
+    stripe_customer_id?: string;
+    stripe_subscription_id?: string;
+    account_status?: string;
+  },
+  nextBillingDate?: string | null
+) {
+  if (!email) {
+    console.log("No email provided, skipping client_profiles update");
+    return;
+  }
+
+  const updateData: Record<string, unknown> = { ...updates };
+  
+  // Note: next_billing_date would need to be added to client_profiles if needed
+  // For now, we store it in the account_status or metadata
+  
+  const { error } = await supabase
+    .from("client_profiles")
+    .update(updateData)
+    .eq("email", email);
+  
+  if (error) {
+    console.error("Error updating client_profiles:", error);
+  } else {
+    console.log("Updated client_profiles for:", email, updates);
+  }
+}
+
 async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session) {
   console.log("Processing checkout.session.completed:", session.id);
   
@@ -116,23 +162,36 @@ async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session) 
     }
     console.log("Created new subscription:", subscriptionId);
   }
+  
+  // Sync to client_profiles
+  await updateClientProfile(customerEmail, {
+    subscription_status: "active",
+    stripe_customer_id: customerId,
+    stripe_subscription_id: subscriptionId,
+    account_status: "active",
+  });
 }
 
 async function handleInvoicePaymentSucceeded(invoice: Stripe.Invoice) {
   console.log("Processing invoice.payment_succeeded:", invoice.id);
   
   const subscriptionId = invoice.subscription as string;
+  const customerEmail = invoice.customer_email;
   
   if (!subscriptionId) {
     console.log("No subscription ID in invoice, skipping");
     return;
   }
   
+  // Get next billing date
+  const nextBillingDate = await getNextBillingDate(subscriptionId);
+  
   const { error } = await supabase
     .from("subscriptions")
     .update({
       subscription_status: "active",
       is_active: true,
+      next_billing_date: nextBillingDate,
     })
     .eq("stripe_subscription_id", subscriptionId);
   
@@ -142,12 +201,19 @@ async function handleInvoicePaymentSucceeded(invoice: Stripe.Invoice) {
   } else {
     console.log("Subscription marked active:", subscriptionId);
   }
+  
+  // Sync to client_profiles
+  await updateClientProfile(customerEmail, {
+    subscription_status: "active",
+    account_status: "active",
+  });
 }
 
 async function handleInvoicePaymentFailed(invoice: Stripe.Invoice) {
   console.log("Processing invoice.payment_failed:", invoice.id);
   
   const subscriptionId = invoice.subscription as string;
+  const customerEmail = invoice.customer_email;
   
   if (!subscriptionId) {
     console.log("No subscription ID in invoice, skipping");
@@ -166,10 +232,26 @@ async function handleInvoicePaymentFailed(invoice: Stripe.Invoice) {
   } else {
     console.log("Subscription marked past_due:", subscriptionId);
   }
+  
+  // Sync to client_profiles
+  await updateClientProfile(customerEmail, {
+    subscription_status: "past_due",
+  });
 }
 
 async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
   console.log("Processing customer.subscription.deleted:", subscription.id);
+  
+  // Get customer email from Stripe
+  let customerEmail: string | null = null;
+  try {
+    const customer = await stripe.customers.retrieve(subscription.customer as string);
+    if (customer && !customer.deleted && 'email' in customer) {
+      customerEmail = customer.email;
+    }
+  } catch (e) {
+    console.error("Error fetching customer:", e);
+  }
   
   const { error } = await supabase
     .from("subscriptions")
@@ -184,6 +266,12 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
   } else {
     console.log("Subscription canceled:", subscription.id);
   }
+  
+  // Sync to client_profiles
+  await updateClientProfile(customerEmail, {
+    subscription_status: "canceled",
+    account_status: "suspended",
+  });
 }
 
 serve(async (req) => {
