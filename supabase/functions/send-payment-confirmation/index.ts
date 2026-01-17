@@ -48,7 +48,7 @@ serve(async (req) => {
     const emailResponse = await resend.emails.send({
       from: "Sienvi <noreply@sienvi.com>",
       to: [customerEmail],
-      subject: "🎉 Payment Confirmed - Welcome to Sienvi!",
+      subject: "Payment Confirmed",
       html: `
 <!DOCTYPE html>
 <html>
@@ -56,137 +56,91 @@ serve(async (req) => {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; background-color: #f3f4f6;">
-  <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f3f4f6; padding: 40px 20px;">
+<body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; background-color: #f8fafc; -webkit-font-smoothing: antialiased;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f8fafc; padding: 40px 16px;">
     <tr>
       <td align="center">
-        <table width="600" cellpadding="0" cellspacing="0" style="max-width: 600px; width: 100%;">
-          <!-- Logo -->
+        <table width="520" cellpadding="0" cellspacing="0" style="max-width: 520px; width: 100%;">
           <tr>
-            <td align="center" style="padding-bottom: 24px;">
-              <h1 style="margin: 0; font-size: 28px; font-weight: 700; color: #667eea;">Sienvi</h1>
-            </td>
-          </tr>
-          <!-- Main Card -->
-          <tr>
-            <td style="background: #ffffff; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); overflow: hidden;">
-              <!-- Success Header -->
-              <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); padding: 32px 40px; text-align: center;">
-                <div style="width: 64px; height: 64px; background: rgba(255,255,255,0.2); border-radius: 50%; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center;">
-                  <span style="font-size: 32px;">✓</span>
+            <td style="background: #ffffff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08); overflow: hidden; border-top: 3px solid #10b981;">
+              <!-- Header -->
+              <div style="padding: 32px 32px 24px 32px; text-align: center; border-bottom: 1px solid #f1f5f9;">
+                <div style="width: 48px; height: 48px; background: #10b981; border-radius: 50%; margin: 0 auto 16px auto; display: flex; align-items: center; justify-content: center;">
+                  <span style="color: #ffffff; font-size: 20px; line-height: 48px;">✓</span>
                 </div>
-                <h2 style="margin: 0; font-size: 24px; font-weight: 700; color: #ffffff;">Payment Successful!</h2>
-                <p style="margin: 8px 0 0 0; font-size: 16px; color: rgba(255,255,255,0.9);">Thank you for your subscription</p>
+                <h1 style="margin: 0; font-size: 22px; font-weight: 600; color: #1f2937; letter-spacing: -0.3px;">Payment Confirmed</h1>
+                <p style="margin: 8px 0 0 0; font-size: 14px; color: #6b7280;">Your subscription is now active</p>
               </div>
               
-              <!-- Content -->
-              <div style="padding: 32px 40px;">
-                <p style="margin: 0 0 20px 0; font-size: 16px; color: #1f2937;">Hi ${displayName},</p>
+              <!-- Body -->
+              <div style="padding: 28px 32px 32px 32px;">
+                <p style="margin: 0 0 16px 0; font-size: 15px; color: #1f2937;">Hi ${displayName},</p>
                 
-                <p style="margin: 0 0 24px 0; font-size: 16px; color: #1f2937;">
-                  Great news! Your payment has been processed successfully. Welcome to the Sienvi family! 🚀
+                <p style="margin: 0 0 16px 0; font-size: 15px; color: #6b7280; line-height: 1.6;">
+                  Thank you for your payment. Your Sienvi subscription is now active and we're ready to get started.
                 </p>
                 
-                <!-- Payment Details Card -->
-                <div style="background: #f9fafb; border-radius: 8px; padding: 20px; margin: 24px 0; border: 1px solid #e5e7eb;">
-                  <table width="100%" cellpadding="0" cellspacing="0">
-                    <tr>
-                      <td style="padding-bottom: 12px; border-bottom: 1px solid #e5e7eb;">
-                        <span style="font-size: 14px; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px;">Payment Receipt</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td style="padding-top: 16px;">
-                        <table width="100%" cellpadding="0" cellspacing="0">
-                          <tr>
-                            <td style="padding: 8px 0;">
-                              <span style="color: #6b7280; font-size: 14px;">Plan</span>
-                            </td>
-                            <td align="right" style="padding: 8px 0;">
-                              <span style="color: #1f2937; font-size: 14px; font-weight: 600;">${planLabel}</span>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td style="padding: 8px 0;">
-                              <span style="color: #6b7280; font-size: 14px;">Amount</span>
-                            </td>
-                            <td align="right" style="padding: 8px 0;">
-                              <span style="color: #10b981; font-size: 18px; font-weight: 700;">${formattedAmount}/month</span>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td style="padding: 8px 0;">
-                              <span style="color: #6b7280; font-size: 14px;">Status</span>
-                            </td>
-                            <td align="right" style="padding: 8px 0;">
-                              <span style="background: #ecfdf5; color: #065f46; font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 9999px;">Active</span>
-                            </td>
-                          </tr>
-                        </table>
-                      </td>
-                    </tr>
-                  </table>
+                <!-- Payment Details -->
+                <div style="background: #f1f5f9; border-radius: 8px; padding: 16px 20px; margin: 20px 0;">
+                  <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e2e8f0;">
+                    <span style="font-size: 13px; color: #6b7280;">Plan</span>
+                    <span style="font-size: 13px; font-weight: 500; color: #1f2937;">${planLabel}</span>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e2e8f0;">
+                    <span style="font-size: 13px; color: #6b7280;">Amount</span>
+                    <span style="font-size: 13px; font-weight: 600; color: #10b981;">${formattedAmount}/mo</span>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; padding: 8px 0;">
+                    <span style="font-size: 13px; color: #6b7280;">Status</span>
+                    <span style="font-size: 13px; font-weight: 500; color: #10b981;">Active</span>
+                  </div>
                 </div>
                 
                 <!-- Next Steps -->
-                <h3 style="margin: 32px 0 16px 0; font-size: 18px; font-weight: 600; color: #1f2937;">What's Next?</h3>
+                <p style="margin: 24px 0 12px 0; font-size: 14px; font-weight: 600; color: #1f2937;">What's next?</p>
                 
-                <div style="margin: 0 0 24px 0;">
-                  <div style="display: flex; align-items: flex-start; margin-bottom: 16px;">
-                    <div style="flex-shrink: 0; width: 28px; height: 28px; background: #10b981; border-radius: 50%; margin-right: 12px; text-align: center; line-height: 28px;">
-                      <span style="color: #ffffff; font-size: 14px; font-weight: 600;">✓</span>
+                <div style="margin: 0 0 20px 0;">
+                  <div style="display: flex; align-items: center; padding: 6px 0;">
+                    <div style="width: 20px; height: 20px; background: #10b981; border-radius: 50%; margin-right: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                      <span style="color: #ffffff; font-size: 11px;">✓</span>
                     </div>
-                    <span style="font-size: 15px; color: #9ca3af; padding-top: 4px; text-decoration: line-through;">Complete payment</span>
+                    <span style="font-size: 14px; color: #9ca3af; text-decoration: line-through;">Complete payment</span>
                   </div>
-                  <div style="display: flex; align-items: flex-start; margin-bottom: 16px;">
-                    <div style="flex-shrink: 0; width: 28px; height: 28px; background: #667eea; border-radius: 50%; margin-right: 12px; text-align: center; line-height: 28px;">
-                      <span style="color: #ffffff; font-size: 14px; font-weight: 600;">2</span>
+                  <div style="display: flex; align-items: center; padding: 6px 0;">
+                    <div style="width: 20px; height: 20px; background: #f1f5f9; border-radius: 50%; margin-right: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                      <span style="color: #9ca3af; font-size: 11px; font-weight: 500;">2</span>
                     </div>
-                    <span style="font-size: 15px; color: #1f2937; padding-top: 4px;">Sign the service agreement</span>
+                    <span style="font-size: 14px; color: #1f2937;">Sign service agreement</span>
                   </div>
-                  <div style="display: flex; align-items: flex-start; margin-bottom: 16px;">
-                    <div style="flex-shrink: 0; width: 28px; height: 28px; background: #667eea; border-radius: 50%; margin-right: 12px; text-align: center; line-height: 28px;">
-                      <span style="color: #ffffff; font-size: 14px; font-weight: 600;">3</span>
+                  <div style="display: flex; align-items: center; padding: 6px 0;">
+                    <div style="width: 20px; height: 20px; background: #f1f5f9; border-radius: 50%; margin-right: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                      <span style="color: #9ca3af; font-size: 11px; font-weight: 500;">3</span>
                     </div>
-                    <span style="font-size: 15px; color: #1f2937; padding-top: 4px;">Complete your onboarding questionnaires</span>
-                  </div>
-                  <div style="display: flex; align-items: flex-start;">
-                    <div style="flex-shrink: 0; width: 28px; height: 28px; background: #667eea; border-radius: 50%; margin-right: 12px; text-align: center; line-height: 28px;">
-                      <span style="color: #ffffff; font-size: 14px; font-weight: 600;">4</span>
-                    </div>
-                    <span style="font-size: 15px; color: #1f2937; padding-top: 4px;">We start building your automations!</span>
+                    <span style="font-size: 14px; color: #1f2937;">Complete onboarding</span>
                   </div>
                 </div>
                 
                 <!-- CTA Button -->
                 <table width="100%" cellpadding="0" cellspacing="0">
                   <tr>
-                    <td align="center" style="padding: 24px 0;">
-                      <a href="${loginUrl}" style="display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #ffffff; text-decoration: none; padding: 16px 48px; border-radius: 8px; font-weight: 600; font-size: 16px; box-shadow: 0 4px 14px 0 rgba(102, 126, 234, 0.39);">
-                        Go to Dashboard
+                    <td align="center" style="padding: 16px 0 8px 0;">
+                      <a href="${loginUrl}" style="display: inline-block; background: #667eea; color: #ffffff; text-decoration: none; padding: 14px 32px; border-radius: 8px; font-weight: 500; font-size: 14px;">
+                        Continue Setup
                       </a>
                     </td>
                   </tr>
                 </table>
-                
-                <!-- Info Box -->
-                <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 16px; margin: 16px 0;">
-                  <p style="margin: 0; font-size: 14px; color: #1e40af;">
-                    <strong>💡 Tip:</strong> Log in to your dashboard to sign your contract and complete onboarding. Our team will start working on your automations as soon as you're done!
-                  </p>
-                </div>
               </div>
             </td>
           </tr>
           <!-- Footer -->
           <tr>
-            <td style="padding-top: 32px; text-align: center;">
-              <p style="margin: 0 0 8px 0; font-size: 14px; color: #9ca3af;">
-                Questions? Reply to this email or contact us at
+            <td style="padding: 32px 0 0 0; text-align: center;">
+              <p style="margin: 0 0 4px 0; font-size: 13px; color: #9ca3af;">
+                Questions? Contact <a href="mailto:teamsienvi@gmail.com" style="color: #667eea; text-decoration: none;">teamsienvi@gmail.com</a>
               </p>
-              <a href="mailto:teamsienvi@gmail.com" style="color: #667eea; text-decoration: none; font-size: 14px;">teamsienvi@gmail.com</a>
-              <p style="margin: 24px 0 0 0; font-size: 12px; color: #9ca3af;">
-                © ${new Date().getFullYear()} Sienvi. All rights reserved.
+              <p style="margin: 16px 0 0 0; font-size: 12px; color: #9ca3af;">
+                © 2015 Sienvi. All rights reserved.
               </p>
             </td>
           </tr>

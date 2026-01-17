@@ -49,7 +49,6 @@ serve(async (req) => {
       );
     }
 
-    // Verify admin
     const supabaseUser = createClient(supabaseUrl, supabaseAnonKey, {
       global: { headers: { Authorization: authHeader } },
     });
@@ -92,7 +91,7 @@ serve(async (req) => {
     const emailResponse = await resend.emails.send({
       from: "Sienvi <noreply@sienvi.com>",
       to: [clientEmail],
-      subject: "Complete Your Sienvi Subscription 🚀",
+      subject: "Complete Your Subscription",
       html: `
 <!DOCTYPE html>
 <html>
@@ -100,123 +99,66 @@ serve(async (req) => {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.7; background-color: #f8fafc;">
-  <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f8fafc; padding: 48px 20px;">
+<body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; background-color: #f8fafc; -webkit-font-smoothing: antialiased;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f8fafc; padding: 40px 16px;">
     <tr>
       <td align="center">
-        <table width="600" cellpadding="0" cellspacing="0" style="max-width: 600px; width: 100%;">
-          <!-- Logo -->
+        <table width="520" cellpadding="0" cellspacing="0" style="max-width: 520px; width: 100%;">
           <tr>
-            <td align="center" style="padding-bottom: 32px;">
-              <table cellpadding="0" cellspacing="0">
-                <tr>
-                  <td style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 12px 24px; border-radius: 8px;">
-                    <span style="font-size: 24px; font-weight: 800; color: #ffffff; letter-spacing: -0.5px;">SIENVI</span>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-          <!-- Main Card -->
-          <tr>
-            <td style="background: #ffffff; border-radius: 16px; box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08); overflow: hidden;">
+            <td style="background: #ffffff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08); overflow: hidden; border-top: 3px solid #667eea;">
               <!-- Header -->
-              <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 40px; text-align: center;">
-                <h1 style="margin: 0; font-size: 28px; font-weight: 700; color: #ffffff; letter-spacing: -0.5px;">Complete Your Subscription</h1>
-                <p style="margin: 12px 0 0 0; font-size: 16px; color: rgba(255,255,255,0.9);">You're one step away from automation</p>
+              <div style="padding: 32px 32px 24px 32px; text-align: center; border-bottom: 1px solid #f1f5f9;">
+                <h1 style="margin: 0; font-size: 22px; font-weight: 600; color: #1f2937; letter-spacing: -0.3px;">Complete Your Subscription</h1>
+                <p style="margin: 8px 0 0 0; font-size: 14px; color: #6b7280;">You're one step away from getting started</p>
               </div>
               
-              <!-- Content -->
-              <div style="padding: 40px 48px;">
-                <p style="margin: 0 0 24px 0; font-size: 17px; color: #374151;">Hi ${displayName},</p>
+              <!-- Body -->
+              <div style="padding: 28px 32px 32px 32px;">
+                <p style="margin: 0 0 16px 0; font-size: 15px; color: #1f2937;">Hi ${displayName},</p>
                 
-                <p style="margin: 0 0 28px 0; font-size: 17px; color: #374151;">
-                  Thank you for choosing Sienvi! Complete your secure payment below to unlock the full power of automation for your business.
+                <p style="margin: 0 0 16px 0; font-size: 15px; color: #6b7280; line-height: 1.6;">
+                  Thank you for choosing Sienvi. Complete your payment below to activate your subscription and begin your automation journey.
                 </p>
                 
-                <!-- Plan Details Card -->
-                <div style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); border-radius: 12px; padding: 24px; margin: 28px 0; border: 1px solid #e2e8f0;">
-                  <table width="100%" cellpadding="0" cellspacing="0">
-                    <tr>
-                      <td style="padding-bottom: 16px; border-bottom: 1px solid #e2e8f0;">
-                        <span style="font-size: 13px; color: #64748b; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Your Plan</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td style="padding-top: 16px;">
-                        <table width="100%" cellpadding="0" cellspacing="0">
-                          <tr>
-                            <td>
-                              <span style="font-size: 20px; font-weight: 700; color: #1e293b;">${planLabel}</span>
-                            </td>
-                            <td align="right">
-                              <span style="font-size: 24px; font-weight: 800; color: #667eea;">$${planPrice.toLocaleString()}<span style="font-size: 14px; font-weight: 500; color: #94a3b8;">/mo</span></span>
-                            </td>
-                          </tr>
-                        </table>
-                      </td>
-                    </tr>
-                  </table>
+                <!-- Plan Details -->
+                <div style="background: #f1f5f9; border-radius: 8px; padding: 16px 20px; margin: 20px 0;">
+                  <div style="display: flex; justify-content: space-between; padding: 8px 0;">
+                    <span style="font-size: 13px; color: #6b7280;">Plan</span>
+                    <span style="font-size: 13px; font-weight: 500; color: #1f2937;">${planLabel}</span>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; padding: 8px 0; border-top: 1px solid #e2e8f0;">
+                    <span style="font-size: 13px; color: #6b7280;">Monthly</span>
+                    <span style="font-size: 13px; font-weight: 600; color: #667eea;">$${planPrice.toLocaleString()}/mo</span>
+                  </div>
                 </div>
                 
                 <!-- CTA Button -->
                 <table width="100%" cellpadding="0" cellspacing="0">
                   <tr>
-                    <td align="center" style="padding: 28px 0;">
-                      <a href="${checkoutUrl}" style="display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #ffffff; text-decoration: none; padding: 18px 56px; border-radius: 10px; font-weight: 600; font-size: 16px; box-shadow: 0 4px 16px rgba(102, 126, 234, 0.35);">
+                    <td align="center" style="padding: 24px 0 8px 0;">
+                      <a href="${checkoutUrl}" style="display: inline-block; background: #667eea; color: #ffffff; text-decoration: none; padding: 14px 32px; border-radius: 8px; font-weight: 500; font-size: 14px;">
                         Complete Payment
                       </a>
                     </td>
                   </tr>
                 </table>
                 
-                <!-- Security Note -->
-                <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 16px 20px; margin: 20px 0;">
-                  <p style="margin: 0; font-size: 14px; color: #166534;">
-                    🔒 Secure checkout powered by Stripe. Your payment information is encrypted and protected.
+                <!-- Tip -->
+                <div style="background: #f1f5f9; border-radius: 8px; padding: 14px 16px; margin: 20px 0 0 0;">
+                  <p style="margin: 0; font-size: 13px; color: #6b7280; line-height: 1.5;">
+                    Your payment is securely processed by Stripe. After completing payment, you'll sign your service agreement and complete onboarding.
                   </p>
                 </div>
-                
-                <!-- What Happens Next -->
-                <h3 style="margin: 36px 0 20px 0; font-size: 18px; font-weight: 700; color: #1e293b;">What happens next?</h3>
-                
-                <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 24px;">
-                  <tr>
-                    <td style="padding: 10px 0; vertical-align: top; width: 40px;">
-                      <div style="width: 28px; height: 28px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; text-align: center; line-height: 28px; color: white; font-size: 13px; font-weight: 600;">1</div>
-                    </td>
-                    <td style="padding: 10px 0; color: #374151; font-size: 15px;">Complete your secure payment</td>
-                  </tr>
-                  <tr>
-                    <td style="padding: 10px 0; vertical-align: top;">
-                      <div style="width: 28px; height: 28px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; text-align: center; line-height: 28px; color: white; font-size: 13px; font-weight: 600;">2</div>
-                    </td>
-                    <td style="padding: 10px 0; color: #374151; font-size: 15px;">Sign the service agreement</td>
-                  </tr>
-                  <tr>
-                    <td style="padding: 10px 0; vertical-align: top;">
-                      <div style="width: 28px; height: 28px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; text-align: center; line-height: 28px; color: white; font-size: 13px; font-weight: 600;">3</div>
-                    </td>
-                    <td style="padding: 10px 0; color: #374151; font-size: 15px;">Complete onboarding questionnaires</td>
-                  </tr>
-                  <tr>
-                    <td style="padding: 10px 0; vertical-align: top;">
-                      <div style="width: 28px; height: 28px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; text-align: center; line-height: 28px; color: white; font-size: 13px; font-weight: 600;">4</div>
-                    </td>
-                    <td style="padding: 10px 0; color: #374151; font-size: 15px;">We start building your automations!</td>
-                  </tr>
-                </table>
               </div>
             </td>
           </tr>
           <!-- Footer -->
           <tr>
-            <td style="padding-top: 40px; text-align: center;">
-              <p style="margin: 0 0 12px 0; font-size: 14px; color: #9ca3af;">
-                Questions? Contact us at
+            <td style="padding: 32px 0 0 0; text-align: center;">
+              <p style="margin: 0 0 4px 0; font-size: 13px; color: #9ca3af;">
+                Questions? Contact <a href="mailto:teamsienvi@gmail.com" style="color: #667eea; text-decoration: none;">teamsienvi@gmail.com</a>
               </p>
-              <a href="mailto:teamsienvi@gmail.com" style="color: #667eea; text-decoration: none; font-size: 14px; font-weight: 500;">teamsienvi@gmail.com</a>
-              <p style="margin: 32px 0 0 0; font-size: 13px; color: #d1d5db;">
+              <p style="margin: 16px 0 0 0; font-size: 12px; color: #9ca3af;">
                 © 2015 Sienvi. All rights reserved.
               </p>
             </td>

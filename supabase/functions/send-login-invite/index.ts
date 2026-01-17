@@ -33,7 +33,6 @@ serve(async (req) => {
       );
     }
 
-    // Verify admin
     const supabaseUser = createClient(supabaseUrl, supabaseAnonKey, {
       global: { headers: { Authorization: authHeader } },
     });
@@ -69,7 +68,6 @@ serve(async (req) => {
       );
     }
 
-    // Get client profile to check their status
     let clientStatus = {
       subscriptionStatus: "pending_payment",
       contractStatus: "not_signed",
@@ -92,17 +90,14 @@ serve(async (req) => {
       }
     }
 
-    // Determine redirect URL based on client status
     const baseUrl = req.headers.get("origin") || "https://sienvi-agency-landing-page.lovable.app";
     let redirectPath = "/dashboard";
-    let actionMessage = "Access Your Dashboard";
-    let emailSubject = "Welcome to Sienvi - Your Login Link";
-    let headerTitle = "Welcome to Sienvi";
-    let headerSubtitle = "Your login link is ready";
-    let emailIntro = "Your account has been created! Click the button below to access your dashboard:";
-    let statusNote = "";
+    let actionMessage = "Access Dashboard";
+    let emailSubject = "Your Login Link";
+    let headerTitle = "Access Your Dashboard";
+    let emailIntro = "Use the button below to securely access your Sienvi dashboard.";
+    let tipText = "";
 
-    // First-time users should set up their password
     const { data: authUsers } = await supabaseAdmin.auth.admin.listUsers();
     const existingAuthUser = authUsers?.users?.find(u => u.email?.toLowerCase() === clientEmail.toLowerCase());
     const isNewUser = !existingAuthUser;
@@ -110,28 +105,22 @@ serve(async (req) => {
     if (isNewUser) {
       redirectPath = "/login?setup=password";
       actionMessage = "Set Your Password";
-      emailSubject = "Welcome to Sienvi - Set Up Your Account";
+      emailSubject = "Welcome to Sienvi";
       headerTitle = "Welcome to Sienvi";
-      headerSubtitle = "Let's set up your account";
-      emailIntro = "Your client account has been created! Click the button below to set your password and access your dashboard:";
-      statusNote = "After clicking the link, you'll be able to set a password for easier future logins.";
+      emailIntro = "Your account has been created. Set up your password to get started.";
+      tipText = "After clicking the link, you'll create a password for easier future logins.";
     } else if (clientStatus.subscriptionStatus === "pending_payment") {
-      redirectPath = "/dashboard";
-      actionMessage = "View Payment Status";
-      statusNote = "Complete your payment to unlock all features.";
+      tipText = "Complete your payment to unlock all features.";
     } else if (clientStatus.subscriptionStatus === "active" && clientStatus.contractStatus === "not_signed") {
       redirectPath = "/contract";
-      actionMessage = "Sign Your Contract";
-      headerSubtitle = "Your next step awaits";
-      statusNote = "Your next step is to review and sign the service agreement.";
+      actionMessage = "Sign Agreement";
+      tipText = "Your next step is to review and sign the service agreement.";
     } else if (clientStatus.contractStatus === "signed" && clientStatus.onboardingStatus !== "completed") {
       redirectPath = "/onboarding";
-      actionMessage = "Complete Onboarding";
-      headerSubtitle = "Almost there!";
-      statusNote = "Complete your onboarding questionnaires so we can get started.";
+      actionMessage = "Continue Setup";
+      tipText = "Complete your onboarding to help us get started on your automations.";
     }
 
-    // Generate a magic link for the user
     const { data: linkData, error: linkError } = await supabaseAdmin.auth.admin.generateLink({
       type: "magiclink",
       email: clientEmail,
@@ -159,75 +148,57 @@ serve(async (req) => {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.7; background-color: #f8fafc;">
-  <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f8fafc; padding: 48px 20px;">
+<body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; background-color: #f8fafc; -webkit-font-smoothing: antialiased;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f8fafc; padding: 40px 16px;">
     <tr>
       <td align="center">
-        <table width="600" cellpadding="0" cellspacing="0" style="max-width: 600px; width: 100%;">
-          <!-- Logo -->
+        <table width="520" cellpadding="0" cellspacing="0" style="max-width: 520px; width: 100%;">
           <tr>
-            <td align="center" style="padding-bottom: 32px;">
-              <table cellpadding="0" cellspacing="0">
-                <tr>
-                  <td style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 12px 24px; border-radius: 8px;">
-                    <span style="font-size: 24px; font-weight: 800; color: #ffffff; letter-spacing: -0.5px;">SIENVI</span>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-          <!-- Main Card -->
-          <tr>
-            <td style="background: #ffffff; border-radius: 16px; box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08); overflow: hidden;">
+            <td style="background: #ffffff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08); overflow: hidden; border-top: 3px solid #667eea;">
               <!-- Header -->
-              <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 40px; text-align: center;">
-                <h1 style="margin: 0; font-size: 28px; font-weight: 700; color: #ffffff; letter-spacing: -0.5px;">${headerTitle}</h1>
-                <p style="margin: 12px 0 0 0; font-size: 16px; color: rgba(255,255,255,0.9);">${headerSubtitle}</p>
+              <div style="padding: 32px 32px 24px 32px; text-align: center; border-bottom: 1px solid #f1f5f9;">
+                <h1 style="margin: 0; font-size: 22px; font-weight: 600; color: #1f2937; letter-spacing: -0.3px;">${headerTitle}</h1>
               </div>
               
-              <!-- Content -->
-              <div style="padding: 40px 48px;">
-                <p style="margin: 0 0 24px 0; font-size: 17px; color: #374151;">Hi ${displayName},</p>
+              <!-- Body -->
+              <div style="padding: 28px 32px 32px 32px;">
+                <p style="margin: 0 0 16px 0; font-size: 15px; color: #1f2937;">Hi ${displayName},</p>
                 
-                <p style="margin: 0 0 28px 0; font-size: 17px; color: #374151;">
+                <p style="margin: 0 0 16px 0; font-size: 15px; color: #6b7280; line-height: 1.6;">
                   ${emailIntro}
                 </p>
                 
                 <!-- CTA Button -->
                 <table width="100%" cellpadding="0" cellspacing="0">
                   <tr>
-                    <td align="center" style="padding: 28px 0;">
-                      <a href="${loginUrl}" style="display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #ffffff; text-decoration: none; padding: 18px 56px; border-radius: 10px; font-weight: 600; font-size: 16px; box-shadow: 0 4px 16px rgba(102, 126, 234, 0.35);">
+                    <td align="center" style="padding: 24px 0 8px 0;">
+                      <a href="${loginUrl}" style="display: inline-block; background: #667eea; color: #ffffff; text-decoration: none; padding: 14px 32px; border-radius: 8px; font-weight: 500; font-size: 14px;">
                         ${actionMessage}
                       </a>
                     </td>
                   </tr>
                 </table>
                 
-                ${statusNote ? `
-                <!-- Status Note -->
-                <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 16px 20px; margin: 20px 0;">
-                  <p style="margin: 0; font-size: 14px; color: #1e40af;">
-                    <strong>💡 Tip:</strong> ${statusNote}
+                ${tipText ? `
+                <!-- Tip -->
+                <div style="background: #f1f5f9; border-radius: 8px; padding: 14px 16px; margin: 20px 0 0 0;">
+                  <p style="margin: 0; font-size: 13px; color: #6b7280; line-height: 1.5;">
+                    ${tipText}
                   </p>
                 </div>
-                ` : ""}
+                ` : ''}
                 
-                <!-- Expiry Note -->
-                <p style="font-size: 14px; color: #94a3b8; margin-top: 28px; text-align: center;">
-                  This link will expire in 24 hours. If you didn't request this, please ignore this email.
-                </p>
+                <p style="margin: 20px 0 0 0; font-size: 12px; color: #9ca3af; text-align: center;">This link expires in 24 hours. If you didn't request this, you can ignore this email.</p>
               </div>
             </td>
           </tr>
           <!-- Footer -->
           <tr>
-            <td style="padding-top: 40px; text-align: center;">
-              <p style="margin: 0 0 12px 0; font-size: 14px; color: #9ca3af;">
-                Need help? Contact us at
+            <td style="padding: 32px 0 0 0; text-align: center;">
+              <p style="margin: 0 0 4px 0; font-size: 13px; color: #9ca3af;">
+                Questions? Contact <a href="mailto:teamsienvi@gmail.com" style="color: #667eea; text-decoration: none;">teamsienvi@gmail.com</a>
               </p>
-              <a href="mailto:teamsienvi@gmail.com" style="color: #667eea; text-decoration: none; font-size: 14px; font-weight: 500;">teamsienvi@gmail.com</a>
-              <p style="margin: 32px 0 0 0; font-size: 13px; color: #d1d5db;">
+              <p style="margin: 16px 0 0 0; font-size: 12px; color: #9ca3af;">
                 © 2015 Sienvi. All rights reserved.
               </p>
             </td>
