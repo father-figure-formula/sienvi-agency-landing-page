@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 
 const PRICE_PER_CHANNEL = 888;
 const TOTAL_CHANNELS = 7;
-const ALL_CHANNELS_SAVINGS = 3450;
+const ALL_CHANNELS_PRICE = 3450; // Total price for all 7 channels
 const BUNDLE_THRESHOLD = 3;
 
 const Advertising = () => {
@@ -48,10 +48,15 @@ const Advertising = () => {
   const selectedCount = selectedChannels.length;
   const baseTotal = selectedCount * PRICE_PER_CHANNEL;
   
-  // Calculate savings: $3450 for all channels OR 3+ channels
-  const hasSavings = selectedCount === TOTAL_CHANNELS || selectedCount >= BUNDLE_THRESHOLD;
-  const savings = hasSavings ? ALL_CHANNELS_SAVINGS : 0;
-  const finalTotal = baseTotal - savings;
+  // Calculate bundle pricing:
+  // - All 7 channels = $3,450 total
+  // - 3+ channels = proportional discount (per-channel rate based on all-channels price)
+  const pricePerChannelBundled = ALL_CHANNELS_PRICE / TOTAL_CHANNELS; // ~$492.86 per channel
+  const hasSavings = selectedCount >= BUNDLE_THRESHOLD;
+  const finalTotal = hasSavings 
+    ? Math.round(selectedCount * pricePerChannelBundled) 
+    : baseTotal;
+  const savings = hasSavings ? baseTotal - finalTotal : 0;
 
   return (
     <section id="advertising" className="section-padding bg-background overflow-hidden">
@@ -294,7 +299,7 @@ const Advertising = () => {
                               className="w-full sm:w-auto border-primary/50 text-primary hover:bg-primary/10"
                             >
                               <Plus className="w-3.5 h-3.5 mr-1" />
-                              Select All Channels (Save ${ALL_CHANNELS_SAVINGS.toLocaleString()})
+                              Select All Channels — ${ALL_CHANNELS_PRICE.toLocaleString()}/mo
                             </Button>
                           )}
                           
