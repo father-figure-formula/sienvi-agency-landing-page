@@ -170,7 +170,17 @@ const CheckoutSummary = () => {
   const handleBundleWithPlan = (bundlePlan: string) => {
     // Store advertising selections and navigate to plan selection with advertising
     sessionStorage.setItem('selectedAdvertisingChannels', JSON.stringify(selectedAdChannels));
-    navigate(`/select-services?plan=${bundlePlan}&includeAds=true`);
+    
+    // Handle single plan add-ons (SEO/AEO or LMS)
+    if (bundlePlan === 'single-seo') {
+      sessionStorage.setItem('preselected_service', 'seo-aeo');
+      navigate(`/select-services?plan=single&includeAds=true`);
+    } else if (bundlePlan === 'single-lms') {
+      sessionStorage.setItem('preselected_service', 'custom-lms');
+      navigate(`/select-services?plan=single&includeAds=true`);
+    } else {
+      navigate(`/select-services?plan=${bundlePlan}&includeAds=true`);
+    }
   };
 
   // Calculate advertising costs
@@ -453,34 +463,58 @@ const CheckoutSummary = () => {
                     <p className="text-sm text-muted-foreground text-center mb-3">
                       or bundle with:
                     </p>
-                    <div className="flex flex-wrap gap-2 justify-center">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleBundleWithPlan('single')}
-                        className="text-xs border-primary/30 hover:bg-primary/5"
-                      >
-                        <Plus className="w-3 h-3 mr-1" />
-                        Single Plan
-                      </Button>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleBundleWithPlan('triple')}
-                        className="text-xs border-primary/30 hover:bg-primary/5"
-                      >
-                        <Plus className="w-3 h-3 mr-1" />
-                        Triple Plan
-                      </Button>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleBundleWithPlan('full')}
-                        className="text-xs border-primary/30 hover:bg-primary/5"
-                      >
-                        <Plus className="w-3 h-3 mr-1" />
-                        Full Automation
-                      </Button>
+                    <div className="flex flex-col gap-2">
+                      {/* Single plan with add-on options */}
+                      <div className="space-y-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleBundleWithPlan('single')}
+                          className="w-full text-xs border-primary/30 hover:bg-primary/5"
+                        >
+                          <Plus className="w-3 h-3 mr-1" />
+                          Single Plan ($888/mo)
+                        </Button>
+                        <div className="flex flex-wrap gap-1.5 justify-center">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleBundleWithPlan('single-seo')}
+                            className="text-[10px] h-6 px-2 text-muted-foreground hover:text-primary"
+                          >
+                            + SEO/AEO ($888)
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleBundleWithPlan('single-lms')}
+                            className="text-[10px] h-6 px-2 text-muted-foreground hover:text-primary"
+                          >
+                            + Custom LMS ($2,450)
+                          </Button>
+                        </div>
+                      </div>
+                      
+                      <div className="flex gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleBundleWithPlan('triple')}
+                          className="flex-1 text-xs border-primary/30 hover:bg-primary/5"
+                        >
+                          <Plus className="w-3 h-3 mr-1" />
+                          Triple Plan
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleBundleWithPlan('full')}
+                          className="flex-1 text-xs border-primary/30 hover:bg-primary/5"
+                        >
+                          <Plus className="w-3 h-3 mr-1" />
+                          Full Automation
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 )}
