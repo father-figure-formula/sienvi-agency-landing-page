@@ -14,6 +14,8 @@ interface PaymentConfirmationRequest {
   plan: string;
   amount: number;
   dashboardUrl?: string;
+  selectedServices?: string[];
+  channelCount?: number;
 }
 
 const planLabels: Record<string, string> = {
@@ -21,6 +23,26 @@ const planLabels: Record<string, string> = {
   triple: "Triple Automation",
   full: "Full Automation Suite",
   custom: "Custom Plan",
+  amazon: "Amazon Design Package",
+  advertising: "Advertising Package",
+};
+
+// Service labels for display
+const serviceLabels: Record<string, string> = {
+  "social-media-suite": "Social Media Suite",
+  "custom-website": "Custom Website Development",
+  "seo-aeo": "SEO/AEO Package",
+  "custom-lms": "Custom LMS Package",
+  "custom-ai-assistant": "Custom AI Assistant",
+  "amazon-design": "Amazon Design Package",
+  "advertising-package": "Advertising Package",
+  "channel-amazon": "Amazon Ads",
+  "channel-google": "Google Ads",
+  "channel-meta": "Meta Ads",
+  "channel-tiktok": "TikTok Ads",
+  "channel-youtube": "YouTube Ads",
+  "channel-reddit": "Reddit Ads",
+  "channel-linkedin": "LinkedIn Ads",
 };
 
 serve(async (req) => {
@@ -29,7 +51,7 @@ serve(async (req) => {
   }
 
   try {
-    const { customerEmail, customerName, plan, amount, dashboardUrl }: PaymentConfirmationRequest = await req.json();
+    const { customerEmail, customerName, plan, amount, dashboardUrl, selectedServices, channelCount }: PaymentConfirmationRequest = await req.json();
 
     if (!customerEmail) {
       return new Response(
@@ -39,9 +61,33 @@ serve(async (req) => {
     }
 
     const displayName = customerName || customerEmail.split("@")[0];
-    const planLabel = planLabels[plan] || plan || "Sienvi Subscription";
+    
+    // Determine plan label with special handling for Amazon and Advertising
+    let planLabel = planLabels[plan] || plan || "Sienvi Subscription";
+    if (plan === "amazon" || selectedServices?.includes("amazon-design")) {
+      planLabel = "Amazon Design Package";
+    } else if (plan === "advertising" || selectedServices?.includes("advertising-package")) {
+      planLabel = channelCount ? `Advertising Package (${channelCount} Channel${channelCount > 1 ? 's' : ''})` : "Advertising Package";
+    }
+    
     const formattedAmount = amount ? `$${(amount / 100).toLocaleString()}` : "N/A";
     const loginUrl = dashboardUrl || "https://sienvi-agency-landing-page.lovable.app/login";
+
+    // Build services list for email
+    const servicesHtml = selectedServices && selectedServices.length > 0
+      ? selectedServices
+          .filter(s => !s.startsWith("channel-")) // Filter out channel prefixes for cleaner display
+          .map(s => serviceLabels[s] || s)
+          .join(", ")
+      : null;
+    
+    // Build channels list for advertising
+    const channelsHtml = selectedServices && selectedServices.length > 0
+      ? selectedServices
+          .filter(s => s.startsWith("channel-"))
+          .map(s => serviceLabels[s] || s.replace("channel-", "").charAt(0).toUpperCase() + s.replace("channel-", "").slice(1))
+          .join(", ")
+      : null;
 
     console.log("Sending payment confirmation to:", customerEmail, "Plan:", planLabel, "Amount:", formattedAmount);
 
@@ -86,6 +132,18 @@ serve(async (req) => {
                     <span style="font-size: 13px; color: #6b7280;">Plan</span>
                     <span style="font-size: 13px; font-weight: 500; color: #1f2937;">${planLabel}</span>
                   </div>
+                  ${channelsHtml ? `
+                  <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e2e8f0;">
+                    <span style="font-size: 13px; color: #6b7280;">Channels</span>
+                    <span style="font-size: 13px; font-weight: 500; color: #1f2937;">${channelsHtml}</span>
+                  </div>
+                  ` : ""}
+                  ${servicesHtml && !channelsHtml ? `
+                  <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e2e8f0;">
+                    <span style="font-size: 13px; color: #6b7280;">Services</span>
+                    <span style="font-size: 13px; font-weight: 500; color: #1f2937;">${servicesHtml}</span>
+                  </div>
+                  ` : ""}
                   <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e2e8f0;">
                     <span style="font-size: 13px; color: #6b7280;">Amount</span>
                     <span style="font-size: 13px; font-weight: 600; color: #10b981;">${formattedAmount}/mo</span>
