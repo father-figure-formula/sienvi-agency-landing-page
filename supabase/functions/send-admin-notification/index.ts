@@ -33,11 +33,19 @@ interface AdminNotificationRequest {
 // Service labels for display
 const serviceLabels: Record<string, string> = {
   "social-media-suite": "Social Media Suite",
-  "ecommerce-operations": "E-Commerce Operations",
   "custom-website": "Custom Website Development",
   "seo-aeo": "SEO/AEO Package",
   "custom-lms": "Custom LMS Package",
-  "custom-gpt": "Custom GPT Product",
+  "custom-ai-assistant": "Custom AI Assistant",
+  "amazon-design": "Amazon Design Package",
+  "advertising-package": "Advertising Package",
+  "channel-amazon": "Amazon Ads",
+  "channel-google": "Google Ads",
+  "channel-meta": "Meta Ads",
+  "channel-tiktok": "TikTok Ads",
+  "channel-youtube": "YouTube Ads",
+  "channel-reddit": "Reddit Ads",
+  "channel-linkedin": "LinkedIn Ads",
 };
 
 const planLabels: Record<string, string> = {
@@ -45,6 +53,8 @@ const planLabels: Record<string, string> = {
   triple: "Triple Automation",
   full: "Full Automation Suite",
   custom: "Custom Plan",
+  amazon: "Amazon Design Package",
+  advertising: "Advertising Package",
 };
 
 // Email configurations for each event type

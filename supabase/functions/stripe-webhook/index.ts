@@ -26,6 +26,8 @@ const planLabels: Record<string, string> = {
   triple: "Triple Automation",
   full: "Full Automation Suite",
   custom: "Custom Plan",
+  amazon: "Amazon Design Package",
+  advertising: "Advertising Package",
 };
 
 // Map price IDs to plan names
@@ -33,16 +35,33 @@ const PRICE_TO_PLAN: Record<string, string> = {
   "price_1SpD4wKEtylNfLjGh9kGQO3z": "single",
   "price_1SpD4wKEtylNfLjGfBzytYeS": "triple",
   "price_1SpD4wKEtylNfLjGGsGBcNq1": "full",
+  // New price IDs
+  "price_1SsCeiDnw1azoLSpWtUULskR": "amazon",
+  "price_1SsCeiDnw1azoLSpdKorTBU8": "advertising",
+  "price_1SsCejDnw1azoLSpKGej9Ksg": "advertising",
+  "price_1SsCejDnw1azoLSpheqeYG3a": "advertising",
+  "price_1SsCejDnw1azoLSpWC515bsb": "advertising",
+  "price_1SsCekDnw1azoLSpH2i8JsLM": "advertising",
+  "price_1SsCekDnw1azoLSpKL6oHsDB": "advertising",
+  "price_1SsCekDnw1azoLSpFwnEh8a2": "advertising",
 };
 
 // Service labels for display
 const serviceLabels: Record<string, string> = {
   "social-media-suite": "Social Media Suite",
-  "ecommerce-operations": "E-Commerce Operations",
   "custom-website": "Custom Website Development",
   "seo-aeo": "SEO/AEO Package",
   "custom-lms": "Custom LMS Package",
-  "custom-gpt": "Custom GPT Product",
+  "custom-ai-assistant": "Custom AI Assistant",
+  "amazon-design": "Amazon Design Package",
+  "advertising-package": "Advertising Package",
+  "channel-amazon": "Amazon Ads",
+  "channel-google": "Google Ads",
+  "channel-meta": "Meta Ads",
+  "channel-tiktok": "TikTok Ads",
+  "channel-youtube": "YouTube Ads",
+  "channel-reddit": "Reddit Ads",
+  "channel-linkedin": "LinkedIn Ads",
 };
 
 // Log webhook event to database
@@ -80,7 +99,17 @@ async function sendAdminNotification(
 ) {
   try {
     const displayName = clientName || clientEmail.split("@")[0];
-    const planLabel = plan ? (planLabels[plan] || plan) : "N/A";
+    
+    // Determine plan label with special handling for Amazon and Advertising
+    let planLabel = plan ? (planLabels[plan] || plan) : "N/A";
+    const channelCount = selectedServices.filter(s => s.startsWith("channel-")).length;
+    
+    if (plan === "amazon" || selectedServices.includes("amazon-design")) {
+      planLabel = "Amazon Design Package";
+    } else if (plan === "advertising" || selectedServices.includes("advertising-package")) {
+      planLabel = channelCount ? `Advertising Package (${channelCount} Channel${channelCount > 1 ? 's' : ''})` : "Advertising Package";
+    }
+    
     const formattedAmount = amount ? `$${(amount / 100).toLocaleString()}` : "N/A";
     
     const eventConfig: Record<string, { subject: string; emoji: string; title: string; color: string }> = {
@@ -111,9 +140,17 @@ async function sendAdminNotification(
       timeZoneName: "short",
     });
 
-    const servicesHtml = selectedServices && selectedServices.length > 0
-      ? selectedServices.map(s => `<li style="padding: 4px 0; color: #374151;">${serviceLabels[s] || s}</li>`).join("")
+    // Format services and channels for display
+    const regularServices = selectedServices.filter(s => !s.startsWith("channel-"));
+    const channels = selectedServices.filter(s => s.startsWith("channel-"));
+    
+    const servicesHtml = regularServices.length > 0
+      ? regularServices.map(s => `<li style="padding: 4px 0; color: #374151;">${serviceLabels[s] || s}</li>`).join("")
       : "";
+    
+    const channelsHtml = channels.length > 0
+      ? channels.map(s => serviceLabels[s] || s.replace("channel-", "").charAt(0).toUpperCase() + s.replace("channel-", "").slice(1)).join(", ")
+      : null;
 
     const emailHtml = `
 <!DOCTYPE html>
@@ -157,14 +194,20 @@ async function sendAdminNotification(
                     <td style="padding: 8px 0; text-align: right;"><span style="color: ${config.color}; font-weight: 700;">${formattedAmount}/mo</span></td>
                   </tr>
                   ` : ""}
+                  \${channelsHtml ? \`
+                  <tr>
+                    <td style="padding: 8px 0;"><strong style="color: #6b7280;">Channels:</strong></td>
+                    <td style="padding: 8px 0; text-align: right;"><span style="color: #1f2937;">\${channelsHtml}</span></td>
+                  </tr>
+                  \` : ""}
                 </table>
               </div>
-              ${selectedServices && selectedServices.length > 0 ? `
+              \${regularServices && regularServices.length > 0 ? \`
               <div style="margin-bottom: 24px;">
                 <h4 style="margin: 0 0 12px 0; font-size: 14px; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px;">Selected Services</h4>
-                <ul style="margin: 0; padding: 0 0 0 20px; list-style: disc;">${servicesHtml}</ul>
+                <ul style="margin: 0; padding: 0 0 0 20px; list-style: disc;">\${servicesHtml}</ul>
               </div>
-              ` : ""}
+              \` : ""}
               <table width="100%" cellpadding="0" cellspacing="0">
                 <tr>
                   <td align="center" style="padding: 24px 0;">
@@ -334,15 +377,33 @@ async function sendPaymentConfirmationEmail(
   customerEmail: string,
   customerName: string | undefined,
   plan: string,
-  amountTotal: number
+  amountTotal: number,
+  selectedServices?: string[],
+  channelCount?: number
 ) {
   try {
     const displayName = customerName || customerEmail.split("@")[0];
-    const planLabel = planLabels[plan] || plan || "Sienvi Subscription";
+    
+    // Determine plan label with special handling for Amazon and Advertising
+    let planLabel = planLabels[plan] || plan || "Sienvi Subscription";
+    if (plan === "amazon" || selectedServices?.includes("amazon-design")) {
+      planLabel = "Amazon Design Package";
+    } else if (plan === "advertising" || selectedServices?.includes("advertising-package")) {
+      planLabel = channelCount ? `Advertising Package (${channelCount} Channel${channelCount > 1 ? 's' : ''})` : "Advertising Package";
+    }
+    
     const formattedAmount = amountTotal ? `$${(amountTotal / 100).toLocaleString()}` : "N/A";
     const loginUrl = "https://sienvi-agency-landing-page.lovable.app/login";
 
-    console.log("Sending payment confirmation email to:", customerEmail);
+    // Build channels list for advertising
+    const channelsHtml = selectedServices && selectedServices.length > 0
+      ? selectedServices
+          .filter(s => s.startsWith("channel-"))
+          .map(s => serviceLabels[s] || s.replace("channel-", "").charAt(0).toUpperCase() + s.replace("channel-", "").slice(1))
+          .join(", ")
+      : null;
+
+    console.log("Sending payment confirmation email to:", customerEmail, "Plan:", planLabel);
 
     await resend.emails.send({
       from: "Sienvi <noreply@sienvi.com>",
@@ -405,11 +466,17 @@ async function sendPaymentConfirmationEmail(
                         <table width="100%" cellpadding="0" cellspacing="0">
                           <tr>
                             <td style="padding: 10px 0;"><span style="color: #6b7280; font-size: 15px;">Plan</span></td>
-                            <td align="right" style="padding: 10px 0;"><span style="color: #1f2937; font-size: 15px; font-weight: 600;">${planLabel}</span></td>
+                            <td align="right" style="padding: 10px 0;"><span style="color: #1f2937; font-size: 15px; font-weight: 600;">\${planLabel}</span></td>
                           </tr>
+                          \${channelsHtml ? \`
+                          <tr>
+                            <td style="padding: 10px 0;"><span style="color: #6b7280; font-size: 15px;">Channels</span></td>
+                            <td align="right" style="padding: 10px 0;"><span style="color: #1f2937; font-size: 14px; font-weight: 500;">\${channelsHtml}</span></td>
+                          </tr>
+                          \` : ""}
                           <tr>
                             <td style="padding: 10px 0;"><span style="color: #6b7280; font-size: 15px;">Amount</span></td>
-                            <td align="right" style="padding: 10px 0;"><span style="color: #10b981; font-size: 20px; font-weight: 700;">${formattedAmount}/mo</span></td>
+                            <td align="right" style="padding: 10px 0;"><span style="color: #10b981; font-size: 20px; font-weight: 700;">\${formattedAmount}/mo</span></td>
                           </tr>
                           <tr>
                             <td style="padding: 10px 0;"><span style="color: #6b7280; font-size: 15px;">Status</span></td>
@@ -627,9 +694,19 @@ async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session) 
     }
   );
 
-  // Send payment confirmation email
+  // Send payment confirmation email with full details
   if (customerEmail) {
-    await sendPaymentConfirmationEmail(customerEmail, customerName, plan || "subscription", amountTotal);
+    // Calculate channel count for advertising plans
+    const channelCount = selectedServices.filter(s => s.startsWith("channel-")).length;
+    
+    await sendPaymentConfirmationEmail(
+      customerEmail, 
+      customerName, 
+      plan || "subscription", 
+      amountTotal,
+      selectedServices,
+      channelCount > 0 ? channelCount : undefined
+    );
     
     // Send admin notification
     await sendAdminNotification("payment_completed", customerEmail, customerName, plan || undefined, amountTotal, selectedServices);
