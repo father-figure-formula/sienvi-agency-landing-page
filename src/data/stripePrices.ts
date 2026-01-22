@@ -1,13 +1,13 @@
-// Stripe Price IDs (Test Mode)
-// These are predefined recurring prices created in Stripe Dashboard
+// Stripe Price IDs (Live - Created via API)
+// These are predefined recurring prices created programmatically
 
 // ============================================
 // AUTOMATION BUNDLE PLANS
 // ============================================
 export const BUNDLE_PRICE_IDS = {
-  single: "price_1SpbnaDnw1azoLSpAmnnUwMX",   // $888/mo - Single automation service
-  triple: "price_1Spbo0Dnw1azoLSpUgAdICKR",   // $2,664/mo - Triple bundle
-  full: "price_1SpboRDnw1azoLSpG07N2lA0",     // $3,996/mo - Full automation suite
+  single: "price_1SsCemDnw1azoLSpvfY7B30Y",   // $888/mo - Single automation service
+  triple: "price_1SsCenDnw1azoLSp613lo4Ye",   // $2,664/mo - Triple bundle
+  full: "price_1SsCeoDnw1azoLSpO7KUsTYp",     // $3,996/mo - Full automation suite
 } as const;
 
 // ============================================
@@ -15,16 +15,16 @@ export const BUNDLE_PRICE_IDS = {
 // ============================================
 export const SERVICE_PRICE_IDS = {
   // Standard services ($888/mo)
-  "custom-website": "price_1SpbnaDnw1azoLSpAmnnUwMX",
-  "seo-aeo": "price_1SpbnaDnw1azoLSpAmnnUwMX",
-  "custom-ai-assistant": "price_1SpbnaDnw1azoLSpAmnnUwMX",
+  "custom-website": "price_1SsCelDnw1azoLSpQEQ0YSAB",
+  "seo-aeo": "price_1SsCelDnw1azoLSpQEQ0YSAB",
+  "custom-ai-assistant": "price_1SsCelDnw1azoLSpQEQ0YSAB",
   
   // Amazon Design Package ($999/mo)
-  "amazon-design": "price_1Sq8qQDnw1azoLSpNJgw6Lzd",
+  "amazon-design": "price_1SsCeiDnw1azoLSpWtUULskR",
   
   // Premium services ($2,450/mo)
-  "social-media-suite": "price_1Sq8qrDnw1azoLSpFzRt8BWN",
-  "custom-lms": "price_1Sq8r5Dnw1azoLSpQF19zfYf",
+  "social-media-suite": "price_1SsCelDnw1azoLSpROO7m3P1",
+  "custom-lms": "price_1SsCemDnw1azoLSpSuyocfHZ",
 } as const;
 
 // ============================================
@@ -37,16 +37,16 @@ export const SERVICE_PRICE_IDS = {
 export const ADVERTISING_PRICE_IDS = {
   // Individual channels ($888/mo each)
   channels: {
-    1: "price_1Sq8raDnw1azoLSpX1Channel1",  // 1 channel = $888
-    2: "price_1Sq8rbDnw1azoLSpX2Channel2",  // 2 channels = $1,776
+    1: "price_1SsCeiDnw1azoLSpdKorTBU8",  // 1 channel = $888
+    2: "price_1SsCejDnw1azoLSpKGej9Ksg",  // 2 channels = $1,776
   },
   // Bundle pricing (3+ channels)
   bundles: {
-    3: "price_1Sq8rcDnw1azoLSpX3Channels",  // 3 channels = $1,479
-    4: "price_1Sq8rdDnw1azoLSpX4Channels",  // 4 channels = $1,971
-    5: "price_1Sq8reDnw1azoLSpX5Channels",  // 5 channels = $2,464
-    6: "price_1Sq8rfDnw1azoLSpX6Channels",  // 6 channels = $2,957
-    7: "price_1Sq8rgDnw1azoLSpAllChannels", // 7 channels = $3,450
+    3: "price_1SsCejDnw1azoLSpheqeYG3a",  // 3 channels = $1,479
+    4: "price_1SsCejDnw1azoLSpWC515bsb",  // 4 channels = $1,971
+    5: "price_1SsCekDnw1azoLSpH2i8JsLM",  // 5 channels = $2,464
+    6: "price_1SsCekDnw1azoLSpKL6oHsDB",  // 6 channels = $2,957
+    7: "price_1SsCekDnw1azoLSpFwnEh8a2",  // 7 channels = $3,450
   },
 } as const;
 
