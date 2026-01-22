@@ -54,7 +54,7 @@ export const services = [
       "Performance optimization",
       "Detailed analytics and reporting",
       "Budget management and allocation",
-      "💡 Select 3+ channels for bundle discount — $3,450/mo total"
+      "💡 Select 3+ channels for bundle discount — Get Started to learn more"
     ],
     price: "$888/channel",
     isAdvertising: true

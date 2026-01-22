@@ -56,11 +56,8 @@ const ServiceCard = ({
 
   const handleGetStarted = () => {
     if (isAdvertising) {
-      // For advertising, scroll to the advertising section
-      const advertisingSection = document.getElementById('advertising');
-      if (advertisingSection) {
-        advertisingSection.scrollIntoView({ behavior: 'smooth' });
-      }
+      // Navigate to checkout summary for advertising channel selection
+      navigate('/checkout-summary?plan=advertising');
       return;
     }
     
