@@ -358,11 +358,16 @@ const SelectServices = () => {
             >
               <Button
                 variant="ghost"
-                onClick={() => navigate("/#pricing")}
+                onClick={() => {
+                  navigate("/#services");
+                  setTimeout(() => {
+                    document.getElementById("services")?.scrollIntoView({ behavior: "smooth" });
+                  }, 100);
+                }}
                 className="mb-6"
               >
                 <ArrowLeft className="w-4 h-4 mr-2" />
-                Back to Pricing
+                Back to Services
               </Button>
               
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full text-primary text-sm font-medium mb-6">
@@ -555,11 +560,16 @@ const SelectServices = () => {
           >
             <Button
               variant="ghost"
-              onClick={() => navigate("/#pricing")}
+              onClick={() => {
+                navigate("/#services");
+                setTimeout(() => {
+                  document.getElementById("services")?.scrollIntoView({ behavior: "smooth" });
+                }, 100);
+              }}
               className="mb-6"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Pricing
+              Back to Services
             </Button>
             
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full text-primary text-sm font-medium mb-6">
