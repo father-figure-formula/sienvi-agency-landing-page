@@ -1,5 +1,8 @@
 project_id = "ikazuqhukvtdorscoads"
 
+[functions.setup-stripe-prices]
+verify_jwt = false
+
 [functions.create-custom-checkout-session]
 verify_jwt = false
 
