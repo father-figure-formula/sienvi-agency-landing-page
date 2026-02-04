@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -13,66 +12,64 @@ interface ServiceCardProps {
   index: number;
   serviceId?: string;
   isAdvertising?: boolean;
-  isAmazon?: boolean;
 }
 
 const cardVariants = {
   hidden: { opacity: 0, y: 20 },
-  visible: { 
-    opacity: 1, 
+  visible: {
+    opacity: 1,
     y: 0,
-    transition: { 
+    transition: {
       duration: 0.5,
       type: "spring",
       stiffness: 100,
-      damping: 10
-    }
+      damping: 10,
+    },
   },
-  hover: { 
+  hover: {
     scale: 1.05,
     boxShadow: "0 10px 30px rgba(0, 0, 0, 0.1)",
-    transition: { 
+    transition: {
       type: "spring",
       stiffness: 300,
-      damping: 15
-    }
-  }
+      damping: 15,
+    },
+  },
 };
 
-const ServiceCard = ({ 
-  icon: Icon, 
-  title, 
-  subtitle, 
-  features, 
+const ServiceCard = ({
+  icon: Icon,
+  title,
+  subtitle,
+  features,
   price,
   index,
   serviceId,
   isAdvertising,
-  isAmazon
 }: ServiceCardProps) => {
   const navigate = useNavigate();
-  
+
   // Separate regular features from bundle suggestion
-  const regularFeatures = features.filter(f => !f.startsWith("💡"));
-  const bundleFeature = features.find(f => f.startsWith("💡"));
+  const regularFeatures = features.filter((f) => !f.startsWith("💡"));
+  const bundleFeature = features.find((f) => f.startsWith("💡"));
 
   const handleGetStarted = () => {
     if (isAdvertising) {
       // Navigate to checkout summary for advertising channel selection
-      navigate('/checkout-summary?plan=advertising');
+      navigate("/checkout-summary?plan=advertising");
       return;
     }
-    
+
     // Store the selected service and navigate to checkout summary
     if (serviceId) {
       sessionStorage.setItem("preselected_service", serviceId);
     }
     // Navigate to checkout summary page with service pre-selected
-    navigate(`/checkout-summary?plan=single&service=${serviceId || ''}`);
+    navigate(`/checkout-summary?plan=single&service=${serviceId || ""}`);
   };
 
   return (
-    <motion.div 
+    <motion.div
       className="service-card flex flex-col"
       variants={cardVariants}
       initial="hidden"
@@ -82,22 +79,19 @@ const ServiceCard = ({
       custom={index}
       transition={{ delay: index * 0.1 }}
     >
-      <motion.div 
-        className="mb-6"
-        whileHover={{ rotate: [0, -10, 10, -5, 5, 0], transition: { duration: 0.5 } }}
-      >
+      <motion.div className="mb-6" whileHover={{ rotate: [0, -10, 10, -5, 5, 0], transition: { duration: 0.5 } }}>
         <Icon className="service-icon" />
       </motion.div>
       <h3 className="text-xl font-bold mb-1">{title}</h3>
       <p className="text-sm text-muted-foreground mb-4">{subtitle}</p>
-      
+
       {/* Regular features */}
       <ul className="space-y-2 mb-4 flex-grow">
         {regularFeatures.map((feature, idx) => (
           <ServiceFeature key={idx} feature={feature} index={idx} />
         ))}
       </ul>
-      
+
       {/* Bundle suggestion and price at bottom */}
       <div className="mt-auto space-y-4">
         {bundleFeature && (
@@ -105,20 +99,12 @@ const ServiceCard = ({
             <ServiceFeature feature={bundleFeature} index={regularFeatures.length} />
           </div>
         )}
-        <motion.div 
-          className="text-primary font-bold text-xl"
-          whileHover={{ scale: 1.05 }}
-        >
-          {price}{!isAdvertising && !isAmazon && '/month'}
+        <motion.div className="text-primary font-bold text-xl" whileHover={{ scale: 1.05 }}>
+          {price}
+          {!isAdvertising}
         </motion.div>
-        <motion.div
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-        >
-          <Button 
-            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
-            onClick={handleGetStarted}
-          >
+        <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+          <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground" onClick={handleGetStarted}>
             Get Started
           </Button>
         </motion.div>
