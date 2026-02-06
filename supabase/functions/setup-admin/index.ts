@@ -20,8 +20,8 @@ Deno.serve(async (req) => {
       },
     });
 
-    const adminEmail = "admin@sienvi.com";
-    const adminPassword = "SienviAdmin2024!";
+    const adminEmail = "teamsienvi@gmail.com";
+    const adminPassword = "Wmmfnsdd1@#$%";
 
     // Check if user already exists
     const { data: existingUsers } = await supabase.auth.admin.listUsers();
