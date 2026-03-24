@@ -53,3 +53,12 @@ verify_jwt = false
 
 [functions.send-checkout-email]
 verify_jwt = false
+
+[functions.subscribe-newsletter]
+verify_jwt = false
+
+[functions.send-newsletter]
+verify_jwt = false
+
+[functions.process-newsletter-drip]
+verify_jwt = false

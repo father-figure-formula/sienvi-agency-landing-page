@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import NewsletterModal from "@/components/NewsletterModal";
 
 // Updated Google Calendar appointment URL
 const CALENDAR_BOOKING_URL = "https://calendar.app.google/EgRs3h4riwwpo4cs6";
@@ -93,6 +94,8 @@ const Hero = () => {
                 Book Your Strategy Call
               </Button>
             </motion.div>
+
+            <NewsletterModal />
           </div>
         </div>
       </div>
